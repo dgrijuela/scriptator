@@ -25,5 +25,5 @@ Vagrant.configure(2) do |config|
   end
 
   # Script to run for provision
-  config.vm.provision "shell", path: "provision/rails.sh"
+  config.vm.provision "shell", path: "provision/*"
 end
