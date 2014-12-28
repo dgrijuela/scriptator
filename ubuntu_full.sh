@@ -16,9 +16,8 @@ vagrant=vagrant_1.7.1_x86_64.deb
 set -e 
 
 echo "Changing DNS to Google's ones..."
-: > /etc/resolv.conf # this is to remove existing nameservers
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
-echo "nameserver 8.8.4.4" > /etc/resolv.conf
+echo "nameserver 8.8.8.8" > /etc/resolv.conf # single > deletes everything and appends
+echo "nameserver 8.8.4.4" >> /etc/resolv.conf # double >> appends at the end
 
 echo "Adding necessary repositories..."
 add-apt-repository ppa:git-core/ppa > /dev/null 2>&1 # last git version
@@ -35,7 +34,7 @@ apt-get -y install nodejs > /dev/null 2>&1
 npm install npm -g > /dev/null 2>&1
 
 echo "Installing RVM with Ruby version $ruby and last version of Ruby Gems..."
-command curl -sSL https://rvm.io/mpapis.asc | sudo gpg --import -  > /dev/null 2>&1 # This is for signature verification
+curl -sSL https://rvm.io/mpapis.asc | sudo gpg --import -  > /dev/null 2>&1 # This is for signature verification
 curl -sSL https://get.rvm.io | bash -s stable --ruby=$ruby > /dev/null 2>&1
 source /usr/local/rvm/scripts/rvm > /dev/null 2>&1
 rvm use $ruby
@@ -61,11 +60,12 @@ SQL
 echo "Installing Virtualbox..."
 apt-get install dkms # dependency
 wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add - # Oracle public key
-sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian trusty contrib" >> /etc/apt/sources.list.d/virtualbox.list' # Add the ppa
+sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian trusty contrib" >> /etc/apt/sources.list.d/virtualbox.list' # Add the ppa
 apt-get install virtualbox-4.3
 
 echo "Installing Vagrant..."
 wget $vagranturl && dpkg -i $vagrant
+rm $vagrant
 
 echo "Installing Meteor..."
 curl https://install.meteor.com/ | sh
