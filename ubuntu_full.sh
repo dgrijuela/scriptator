@@ -16,8 +16,8 @@ vagrant=vagrant_1.7.1_x86_64.deb
 set -e 
 
 echo "Changing DNS to Google's ones..."
-echo "nameserver 8.8.8.8" > /etc/resolv.conf # single > deletes everything and appends
-echo "nameserver 8.8.4.4" >> /etc/resolv.conf # double >> appends at the end
+echo "nameserver 8.8.8.8 > /etc/resolv.conf" # single > deletes everything and appends
+echo "nameserver 8.8.4.4 >> /etc/resolv.conf" # double >> appends at the end
 
 echo "Adding necessary repositories..."
 add-apt-repository ppa:git-core/ppa > /dev/null 2>&1 # last git version
