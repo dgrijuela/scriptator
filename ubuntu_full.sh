@@ -70,3 +70,10 @@ wget $vagranturl && dpkg -i $vagrant
 echo "Installing Meteor..."
 curl https://install.meteor.com/ | sh
 
+echo "Creating a key to add to Github, Bitbutcket, etc"
+sudo -u ${LOGNAME} ssh-keygen -t rsa -C "$email" # create them in non-root path
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+apt-get install xclip # to copy to clipboard
+sudo -u ${LOGNAME} xclip -sel clip < ~/.ssh/id_rsa.pub
+echo "Now the key is in your clipboard, go and paste it!"
