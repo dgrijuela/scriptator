@@ -1,26 +1,26 @@
 #!/bin/bash
 
-# Variables
+dbrootpass=162543
 dbname=jobs_development
 dbname2=jobs_testing
 dbuser=development
 dbpass=development
 
-
-# Exit script immediately on first error.
 set -e 
 
-echo "Installing MySQL and its settings..."
-echo "mysql-server mysql-server/root_password password $DBPASS" | debconf-set-selections
-echo "mysql-server mysql-server/root_password_again password $DBPASS" | debconf-set-selections
-apt-get -y install mysql-server mysql-client > /dev/null 2>&1
+printf "Installing MySQL and its settings"
+debconf-set-selections <<< "mysql-server mysql-server/root_password password $dbrootpass"
+debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $dbrootpass"
+apt-get -y install mysql-server > /dev/null 2>&1
 
-echo "Creating MySQL database '$DBNAME' and user '$DBUSER' with pass '$DBPASS' and access to it..."
-mysql -uroot -proot <<SQL
-CREATE USER '$DBUSER'@'localhost' IDENTIFIED BY '$DBPASS';
-CREATE DATABASE $DBNAME;
-CREATE DATABASE $DBNAME2;
-GRANT ALL PRIVILEGES ON $DBNAME* to '$DBUSER'@'localhost';
-GRANT ALL PRIVILEGES ON $DBNAME2* to '$DBUSER'@'localhost';
+printf "Creating MySQL user '$dbuser' with pass '$dbpass' and access to database '$dbname'"
+mysql -uroot -p$dbrootpass <<SQL
+CREATE USER '$dbuser' IDENTIFIED BY '$dbpass';
+CREATE DATABASE $dbname;
+CREATE DATABASE $dbname2;
+GRANT ALL PRIVILEGES ON $dbname.* to '$dbuser'@'localhost';
+GRANT ALL PRIVILEGES ON $dbname2.* to '$dbuser'@'localhost';
 FLUSH PRIVILEGES;
 SQL
+
+printf "MySQL script completed"

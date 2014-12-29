@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# This script will fully prepare an Ubuntu computer for web development
+# This script will fully prepare an Ubuntu computer for web development (and more)
 
 # Variables
+dbrootpass=165234
 dbname=jobs_development
 dbname2=jobs_testing
 dbuser=development
@@ -52,13 +53,13 @@ echo "Installing Rails version $rails..."
 gem install rails -v $rails --no-document > /dev/null 2>&1
 
 echo "Installing MySQL and its settings..."
-echo "mysql-server mysql-server/root_password password $dbpass" | debconf-set-selections
-echo "mysql-server mysql-server/root_password_again password $dbpass" | debconf-set-selections
-apt-get -y install mysql-server mysql-client > /dev/null 2>&1
+echo "mysql-server mysql-server/root_password password $dbrootpass" | debconf-set-selections
+echo "mysql-server mysql-server/root_password_again password $dbrootpass" | debconf-set-selections
+apt-get -y install mysql-server > /dev/null 2>&1
 
 echo "Creating MySQL database '$dbname' and user '$dbuser' with pass '$dbpass' and access to it..."
-mysql -uroot -proot <<SQL
-CREATE USER '$dbuser'@'localhost' IDENTIFIED BY '$dbpass';
+mysql -uroot -p$dbrootpass <<SQL
+CREATE USER '$dbuser' IDENTIFIED BY '$dbpass';
 CREATE DATABASE $dbname;
 CREATE DATABASE $dbname2;
 GRANT ALL PRIVILEGES ON $dbname* to '$dbuser'@'localhost';
