@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dbrootpass=162543
+dbrootpass=root
 dbname=jobs_development
 dbname2=jobs_testing
 dbuser=development
@@ -15,7 +15,7 @@ apt-get -y install mysql-server > /dev/null 2>&1
 
 printf "Creating MySQL user '$dbuser' with pass '$dbpass' and access to database '$dbname'"
 mysql -uroot -p$dbrootpass <<SQL
-CREATE USER '$dbuser' IDENTIFIED BY '$dbpass';
+CREATE USER '$dbuser'@localhost IDENTIFIED BY '$dbpass';
 CREATE DATABASE $dbname;
 CREATE DATABASE $dbname2;
 GRANT ALL PRIVILEGES ON $dbname.* to '$dbuser'@'localhost' WITH GRANT OPTION;
