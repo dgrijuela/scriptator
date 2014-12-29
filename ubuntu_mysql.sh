@@ -18,8 +18,8 @@ mysql -uroot -p$dbrootpass <<SQL
 CREATE USER '$dbuser' IDENTIFIED BY '$dbpass';
 CREATE DATABASE $dbname;
 CREATE DATABASE $dbname2;
-GRANT ALL PRIVILEGES ON $dbname.* to '$dbuser'@'localhost';
-GRANT ALL PRIVILEGES ON $dbname2.* to '$dbuser'@'localhost';
+GRANT ALL PRIVILEGES ON $dbname.* to '$dbuser'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON $dbname2.* to '$dbuser'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 SQL
 

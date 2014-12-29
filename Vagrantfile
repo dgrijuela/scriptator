@@ -3,7 +3,7 @@
 
 Vagrant.configure(2) do |config|
 
-  # Ubunu 14.04
+  # Ubuntu 14.04
   config.vm.box = "ubuntu/trusty64"
 
   # Don't check for updates when vagrant up
@@ -12,8 +12,7 @@ Vagrant.configure(2) do |config|
   # Port mapping
   config.vm.network "forwarded_port", guest: 3000, host: 3000, auto_correct: true
 
-  # Folder syncing
-  config.vm.synced_folder "./", "/var/www", create: true, group: "www-data", owner: "www-data"
+  # Current folder is synced in /vagrant
 
   # Default is 300
   config.vm.boot_timeout = 600
@@ -25,5 +24,7 @@ Vagrant.configure(2) do |config|
   end
 
   # Script to run for provision
-  config.vm.provision "shell", path: "provision/*"
+  config.vm.provision "shell", path: "provision/ubuntu_base.sh"
+  config.vm.provision "shell", path: "provision/ubuntu_rails.sh"
+  config.vm.provision "shell", path: "provision/ubuntu_mysql.sh"
 end
