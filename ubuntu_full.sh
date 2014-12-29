@@ -9,7 +9,7 @@ dbuser=development
 dbpass=development
 ruby=2.2.0
 rails=4.2
-vagranturl=https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.1_x86_64.deb
+vagranturl=https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.1_x86_64.deb # FIXME
 vagrant=vagrant_1.7.1_x86_64.deb
 
 # Exit script immediately on first error.
@@ -19,8 +19,17 @@ echo "Changing DNS to Google's ones..."
 echo "nameserver 8.8.8.8 > /etc/resolv.conf" # single > deletes everything and appends
 echo "nameserver 8.8.4.4 >> /etc/resolv.conf" # double >> appends at the end
 
+echo "Removing default shit..."
+apt-get -y purge thunderbird nautilus-sendto empathy > /dev/null 2>&1
+apt-get -y autoremove
+apt-get -y autoclean
+
 echo "Adding necessary repositories..."
 add-apt-repository ppa:git-core/ppa > /dev/null 2>&1 # last git version
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - # google key
+sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' # chrome repo
+apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E # mit key
+add-apt-repository "deb http://linux.dropbox.com/ubuntu $(lsb_release -cs) main" # dropbox repo
 
 echo "Updating packages list..."
 apt-get -qq update # qq is no output except for errors (like >/dev/null)
@@ -70,9 +79,11 @@ rm $vagrant
 echo "Installing Meteor..."
 curl https://install.meteor.com/ | sh
 
+echo "Installing Chrome..."
+apt-get install google-chrome-stable
+
 echo "Installing Dropbox..."
-sudo -u ${LOGNAME} wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-sudo -u ${LOGNAME} ~/.dropbox-dist/dropboxd # to use your user home folder, not root's
+apt-get install dropbox
 
 echo "Creating a key to add to Github, Bitbutcket, etc"
 sudo -u ${LOGNAME} ssh-keygen -t rsa -C "$email" # create them in non-root path
