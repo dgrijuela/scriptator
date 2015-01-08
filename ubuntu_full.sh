@@ -3,6 +3,7 @@
 # This script will fully prepare an Ubuntu computer for web development (and more)
 
 # Variables
+tmp_path=/tmp
 dbrootpass=165234
 dbname=jobs_development
 dbname2=jobs_testing
