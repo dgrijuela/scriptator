@@ -15,48 +15,47 @@ echo "nameserver 8.8.8.8 > /etc/resolv.conf" # single > deletes everything and a
 echo "nameserver 8.8.4.4 >> /etc/resolv.conf" # double >> appends at the end
 
 echo "Removing default shit..."
-apt-get -y purge thunderbird nautilus-sendto empathy > /dev/null 2>&1
+apt-get -y purge thunderbird nautilus-sendto empathy
 apt-get -y autoremove
 apt-get -y autoclean
 
 echo "Adding necessary repositories..."
-add-apt-repository ppa:git-core/ppa > /dev/null 2>&1 # last git version
-add_apt-repository ppa:gnome-terminator > /dev/null 2>&1 # last terminator console
+add-apt-repository ppa:git-core/ppa # last git version
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - # google key
+curl -sL https://deb.nodesource.com/setup | sudo bash - # node repo
 sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' # chrome repo
 apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E # mit key
 add-apt-repository "deb http://linux.dropbox.com/ubuntu $(lsb_release -cs) main" # dropbox repo
 
 echo "Updating packages list..."
-apt-get -qq update # qq is no output except for errors (like >/dev/null)
+apt-get update
 
 echo "Installing base packages..."
-apt-get -y install curl build-essential python libssl-dev libcurl4-gnutls-dev libexpat1-dev wget vim git whois > /dev/null 2>&1
+apt-get -y install curl build-essential python libssl-dev libcurl4-gnutls-dev libexpat1-dev wget vim git whois
 
 echo "Installing Terminator (great console)..."
-apt-get install terminator
+apt-get install -y terminator
 
 echo "Installing Compiz to awesome window management..."
-apt-get install compiz compiz-plugins compizconfig-settings-manager
+apt-get install -y compiz compiz-plugins compizconfig-settings-manager
 
 echo "Installing node.js and npm..."
-curl -sL https://deb.nodesource.com/setup | sudo bash - > /dev/null 2>&1
-apt-get -y install nodejs > /dev/null 2>&1
-npm install npm -g > /dev/null 2>&1
+apt-get -y install nodejs
+npm install npm -g
 
 echo "Installing RVM with Ruby version $ruby and last version of Ruby Gems..."
-curl -sSL https://rvm.io/mpapis.asc | sudo gpg --import -  > /dev/null 2>&1 # This is for signature verification
-curl -sSL https://get.rvm.io | bash -s stable --ruby=HEAD > /dev/null 2>&1
-source /usr/local/rvm/scripts/rvm > /dev/null 2>&1
+curl -sSL https://rvm.io/mpapis.asc | sudo gpg --import -  # This is for signature verification
+curl -sSL https://get.rvm.io | bash -s stable --ruby=HEAD
+source /usr/local/rvm/scripts/rvm
 rvm use $ruby
 
 echo "Installing Rails version $rails..."
-gem install rails --no-document > /dev/null 2>&1
+gem install rails --no-document
 
 echo "Installing MySQL and its settings..."
 echo "mysql-server mysql-server/root_password password $mysqlrootpass" | debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password $mysqlrootpass" | debconf-set-selections
-apt-get -y install mysql-server > /dev/null 2>&1
+apt-get -y install mysql-server
 
 echo "Installing PostgreSQL..."
 apt-get install postgresql
