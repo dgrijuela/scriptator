@@ -20,18 +20,18 @@ apt-get -y autoremove
 apt-get -y autoclean
 
 echo "Adding necessary repositories..."
-add-apt-repository ppa:git-core/ppa # last git version
+add-apt-repository -y ppa:git-core/ppa # last git version
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - # google key
 curl -sL https://deb.nodesource.com/setup | sudo bash - # node repo
 sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' # chrome repo
 apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E # mit key
-add-apt-repository "deb http://linux.dropbox.com/ubuntu $(lsb_release -cs) main" # dropbox repo
+add-apt-repository -y "deb http://linux.dropbox.com/ubuntu $(lsb_release -cs) main" # dropbox repo
 
-echo "Updating packages list..."
-apt-get update
+echo "Remember to do apt-get update (it fails sometimes)..."
+#apt-get update
 
 echo "Installing base packages..."
-apt-get -y install curl build-essential python libssl-dev libcurl4-gnutls-dev libexpat1-dev wget vim git whois
+apt-get -y install curl build-essential python python-dev cmake libssl-dev libcurl4-gnutls-dev libexpat1-dev wget vim git whois
 
 echo "Installing Terminator (great console)..."
 apt-get install -y terminator
@@ -45,7 +45,7 @@ npm install npm -g
 
 echo "Installing RVM with Ruby version $ruby and last version of Ruby Gems..."
 curl -sSL https://rvm.io/mpapis.asc | sudo gpg --import -  # This is for signature verification
-curl -sSL https://get.rvm.io | bash -s stable --ruby=HEAD
+curl -sSL https://get.rvm.io | bash -s stable --ruby
 source /usr/local/rvm/scripts/rvm
 rvm use $ruby
 
@@ -69,6 +69,9 @@ apt-get install virtualbox-4.3
 echo "Installing Vagrant..."
 wget $vagranturl && dpkg -i $vagrant
 rm $vagrant
+
+echo "Installing Gimp..."
+apt-get install gimp
 
 echo "Installing Chrome..."
 apt-get install google-chrome-stable
