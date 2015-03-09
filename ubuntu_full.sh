@@ -11,8 +11,8 @@ vagrant=vagrant_1.7.1_x86_64.deb # FIXME
 set -e 
 
 echo "Changing DNS to Google's ones..."
-echo "nameserver 8.8.8.8 > /etc/resolv.conf" # single > deletes everything and appends
-echo "nameserver 8.8.4.4 >> /etc/resolv.conf" # double >> appends at the end
+echo "nameserver 8.8.8.8" > /etc/resolv.conf # single > deletes everything and appends
+echo "nameserver 8.8.4.4" >> /etc/resolv.conf # double >> appends at the end
 
 echo "Removing default shit..."
 apt-get -y purge thunderbird nautilus-sendto empathy
@@ -86,5 +86,13 @@ sudo -u ${LOGNAME} ssh-add ~/.ssh/id_rsa
 apt-get install xclip # to copy to clipboard
 sudo -u ${LOGNAME} xclip -sel clip < ~/.ssh/id_rsa.pub
 echo "Now the key is in your clipboard, go and paste it in you github/bitbucket account!"
+
+echo "Installing Tweak Tool to map Bloq Mayus to CTRL (remember to open it)..."
+apt-get install gnome-tweak-tool
+
+echo "Fix wifi not working after suspending"
+touch /etc/pm/sleep.d/wakenet.sh
+chmod +x /etc/pm/sleep.d/wakenet.sh
+echo "#!/bin/bash case '$1' in thaw|resume) nmcli nm sleep false pkill -f wpa_supplicant ;; *) ;; esac exit $?" >> /etc/pm/sleep.d/wakenet.sh
 
 echo "You're ready my sir"
