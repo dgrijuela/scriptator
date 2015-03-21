@@ -31,7 +31,7 @@ echo "Remember to do apt-get update (it fails sometimes)..."
 #apt-get update
 
 echo "Installing base packages..."
-apt-get -y install curl build-essential python python-dev cmake libssl-dev libcurl4-gnutls-dev libexpat1-dev wget vim git whois
+apt-get -y install curl libpq-dev build-essential python python-dev cmake libssl-dev libcurl4-gnutls-dev libexpat1-dev wget vim git whois
 
 echo "Installing Terminator (great console)..."
 apt-get install -y terminator
