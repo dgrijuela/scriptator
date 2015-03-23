@@ -21,7 +21,7 @@ apt-get -y autoclean
 
 echo "Adding necessary repositories..."
 add-apt-repository -y ppa:git-core/ppa # last git version
-wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - # google key
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -# google key
 curl -sL https://deb.nodesource.com/setup | sudo bash - # node repo
 sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' # chrome repo
 apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E # mit key
@@ -31,7 +31,7 @@ echo "Remember to do apt-get update (it fails sometimes)..."
 #apt-get update
 
 echo "Installing base packages..."
-apt-get -y install curl libpq-dev build-essential python python-dev cmake libssl-dev libcurl4-gnutls-dev libexpat1-dev wget vim git whois
+apt-get -y install curl libpq-dev freetds-dev libmagickwand-dev libmysqlclient-dev build-essential python python-dev cmake libssl-dev libcurl4-gnutls-dev libexpat1-dev wget vim git whois
 
 echo "Installing Terminator (great console)..."
 apt-get install -y terminator
