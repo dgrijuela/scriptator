@@ -20,7 +20,7 @@ apt-get -y autoremove
 apt-get -y autoclean
 
 echo "Installing base packages..."
-apt-get -y install curl libpq-dev freetds-dev tmux libmagickwand-dev libmysqlclient-dev build-essential python python-dev cmake libssl-dev libcurl4-gnutls-dev libexpat1-dev wget vim-gtk git whois
+apt-get -y install curl libpq-dev freetds-dev tmux silversearcher-ag libmagickwand-dev libmysqlclient-dev build-essential python python-dev cmake libssl-dev libcurl4-gnutls-dev libexpat1-dev wget vim-gtk git whois
 
 echo "Adding necessary repositories..."
 add-apt-repository -y ppa:git-core/ppa # last git version
