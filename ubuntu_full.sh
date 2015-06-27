@@ -19,6 +19,9 @@ apt-get -y purge thunderbird nautilus-sendto empathy
 apt-get -y autoremove
 apt-get -y autoclean
 
+echo "Enabling emacs keybindings..."
+gsettings set org.gnome.desktop.interface gtk-key-theme "Emacs"
+
 echo "Installing base packages..."
 apt-get -y install curl libpq-dev freetds-dev tmux silversearcher-ag libmagickwand-dev libmysqlclient-dev build-essential python python-dev cmake libssl-dev libcurl4-gnutls-dev libexpat1-dev wget vim-gtk git whois
 
